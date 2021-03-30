@@ -16,7 +16,7 @@ TLDR:
 git clone https://github.com/eruizc-dev/jdtls-launcher.git && \
 cd jdtls-launcher && \
 sudo make install && \
-sudo -E jdtls && \
+sudo -E jdtls --install && \
 cd .. && \
 rm -rf ./jdtls-launcher
 ```
@@ -33,10 +33,8 @@ Step by step:
 
  3. Run jdtls and let it install the language server
 
-    `sudo -E jdtls`
+    `sudo -E jdtls --install`
 
- 4. If you end up with this json, you're good to go! You can delete the repo now
+ 4. Make sure it runs without issues. You can delete the repo now!
 
-    ```json
-    {"jsonrpc":"2.0","method":"window/logMessage","params":{"type":3,"message":"Mar 30, 2021, 7:54:47 PM Main thread is waiting"}}n^[n^[^[
-    ```
+    `jdtls`

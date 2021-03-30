@@ -1,5 +1,24 @@
 #!/bin/bash
 
+case "$1" in
+    -v|--version)
+        echo "jdtls-launcher: v0.1.0"
+        exit 0
+        ;;
+    -i|--install)
+        INSTALL=1
+        ;;
+    *)
+        RUN=1
+        ;;
+esac
+
+if [[ $INSTALL ]] && [ "$EUID" -ne 0 ]; then
+    echo "ERROR: Command must be run as root to complete installation"
+    exit 1
+fi
+
+
 # ===== CHECK JAVA_HOME EXISTS ====
 if ! [[ -d "$JAVA_HOME" ]]; then
     echo "ERROR: JAVA_HOME is not defined" >> /dev/stderr
@@ -11,7 +30,10 @@ JDTLS_ROOT="$JAVA_HOME/../jdtls"
 EQUINOX_LAUNCHER=`find $JDTLS_ROOT/plugins -nowarn -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
 
 if ! [[ -f "$EQUINOX_LAUNCHER" ]]; then
-    echo 'WARNING: JDTLS is not installed' >> /dev/stderr
+    if ! [[ $INSTALL ]]; then
+        echo 'ERROR: JDTLS is not installed. Run sudo -E jdtls --install.' > /dev/stderr
+        exit 1
+    fi
 
     LATEST=`curl -s http://download.eclipse.org/jdtls/snapshots/latest.txt`
     echo "INFO: About to install $LATEST to $JDTLS_ROOT"
@@ -22,8 +44,7 @@ if ! [[ -f "$EQUINOX_LAUNCHER" ]]; then
     curl "http://download.eclipse.org/jdtls/snapshots/$LATEST" > "$LATEST"
     tar -xf "$LATEST"
     rm "$LATEST"
-    chmod 777 "$JDTLS_ROOT"
-    chmod -R 777 "$JDTLS_ROOT/config_*"
+    chmod -R 777 "$JDTLS_ROOT"
 
     EQUINOX_LAUNCHER=`find $JDTLS_ROOT/plugins -nowarn -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
     if ! [[ -f "$EQUINOX_LAUNCHER" ]]; then
@@ -37,7 +58,10 @@ fi
 # ===== FIND LOMBOK =====
 LOMBOK="$JDTLS_ROOT/plugins/lombok.jar"
 if ! [[ -f "$LOMBOK" ]]; then
-    echo 'WARNING: Lombok is not installed' > /dev/stderr
+    if ! [[ $INSTALL ]]; then
+        echo 'ERROR: Lombok is not installed. Run sudo -E jdtls --install.' > /dev/stderr
+        exit 1
+    fi
 
     echo "INFO: Installing Lombok to $LOMBOK"
     curl "https://projectlombok.org/downloads/lombok.jar" > "$LOMBOK"
@@ -50,6 +74,10 @@ if ! [[ -f "$LOMBOK" ]]; then
     fi
 fi
 
+
+if ! [[ $RUN ]]; then
+    exit 0
+fi
 
 # ===== FIND CONFIG FILE =====
 

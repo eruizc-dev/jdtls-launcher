@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ===== CHECK JAVA_HOME EXISTS ====
-if ! [[ $JAVA_HOME ]]; then
+if ! [[ "$JAVA_HOME" ]]; then
     echo "JAVA_HOME not defined" >> /dev/stderr
     exit 1
 fi
@@ -9,21 +9,21 @@ fi
 # ===== FIND JDTLS_ROOT =====
 JDTLS_ROOT="$JAVA_HOME/../jdtls"
 
-if ! [ -d $JDTLS_ROOT ]; then
-    mkdir -p $JDTLS_ROOT
-    cd $JDTLS_ROOT
+if ! [ -d "$JDTLS_ROOT" ]; then
+    mkdir -p "$JDTLS_ROOT"
+    cd "$JDTLS_ROOT"
     echo 'WARNING: JDTLS is not installed' >> /dev/stderr
     LATEST=`curl http://download.eclipse.org/jdtls/snapshots/latest.txt`
     echo "INFO: About to install $LATEST"
-    curl http://download.eclipse.org/jdtls/snapshots/$LATEST > $LATEST
-    tar -xf $LATEST
-    rm $LATEST
+    curl "http://download.eclipse.org/jdtls/snapshots/$LATEST" > "$LATEST"
+    tar -xf "$LATEST"
+    rm "$LATEST"
 fi
 
 # ===== FIND EQUINOX LAUNCHER =====
 EQUINOX_LAUNCHER="$JDTLS_ROOT/plugins/org.eclipse.equinox.launcher_*.jar"
 
-if ! [[ $EQUINOX_LAUNCHER ]]; then
+if ! [[ "$EQUINOX_LAUNCHER" ]]; then
     echo 'ERROR: JDTLS installation failure'
     exit 1
 else
@@ -31,17 +31,17 @@ else
 fi
 
 # ===== FIND LOMBOK =====
-LOMBOK_PATH=$JDTLS_ROOT/plugins
+LOMBOK_PATH="$JDTLS_ROOT/plugins"
 
-LOMBOK=`find $LOMBOK_PATH -type f -name 'lombok*.jar'`
-if ! [[ $LOMBOK ]]; then
+LOMBOK=`find "$LOMBOK_PATH" -type f -name 'lombok*.jar'`
+if ! [[ "$LOMBOK" ]]; then
     echo 'WARNING: Lombok is not installed.'
     echo "INFO: Installing Lombok to $LOMBOK_PATH"
-    curl https://projectlombok.org/downloads/lombok.jar > $LOMBOK_PATH/lombok.jar
+    curl "https://projectlombok.org/downloads/lombok.jar" > "$LOMBOK_PATH/lombok.jar"
 
     # ===== RECHECK =====
-    LOMBOK=`find $LOMBOK_PATH -type f -name 'lombok*.jar'`
-    if ! [[ $LOMBOK ]]; then
+    LOMBOK=`find "$LOMBOK_PATH" -type f -name 'lombok*.jar'`
+    if ! [[ "$LOMBOK" ]]; then
         echo 'ERROR: Lombok installation failure' > /dev/stderr
         exit 1
     else
@@ -53,22 +53,22 @@ fi
 # ===== FIND CONFIG FILE =====
 
 SYSTEM=`uname -s`
-case $SYSTEM in
-    "Linux")
+case "$SYSTEM" in
+    "Linux") # Linux and WSL
         CONFIG="$JDTLS_ROOT/config_linux"
         ;;
-    "Darwin")
+    "Darwin") # MacOS
         CONFIG="$JDTLS_ROOT/config_mac"
         ;;
     *)
-        echo "Unknown or unsupported system $SYSTEM" >> /dev/stderr
+        echo "ERROR: Unknown or unsupported system $SYSTEM" >> /dev/stderr
         exit
         ;;
 esac
 
 # ===== RUN =====
 
-$JAVA_HOME/bin/java \
+"$JAVA_HOME/bin/java" \
     -Declipse.application=org.eclipse.jdt.ls.core.id1 \
     -Dosgi.bundles.defaultStartLevel=4 \
     -Declipse.product=org.eclipse.jdt.ls.core.product \

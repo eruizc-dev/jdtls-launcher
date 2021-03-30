@@ -9,8 +9,26 @@ fi
 # ===== FIND JDTLS_ROOT =====
 JDTLS_ROOT="$JAVA_HOME/../jdtls"
 
+if ! [ -d $JDTLS_ROOT ]; then
+    mkdir -p $JDTLS_ROOT
+    cd $JDTLS_ROOT
+    echo 'WARNING: JDTLS is not installed' >> /dev/stderr
+    LATEST=`curl http://download.eclipse.org/jdtls/snapshots/latest.txt`
+    echo "INFO: About to install $LATEST"
+    curl http://download.eclipse.org/jdtls/snapshots/$LATEST > $LATEST
+    tar -xf $LATEST
+    rm $LATEST
+fi
+
 # ===== FIND EQUINOX LAUNCHER =====
 EQUINOX_LAUNCHER="$JDTLS_ROOT/plugins/org.eclipse.equinox.launcher_*.jar"
+
+if ! [[ $EQUINOX_LAUNCHER ]]; then
+    echo 'ERROR: JDTLS installation failure'
+    exit 1
+else
+    echo 'INFO: `JDTLS installation succesfull'
+fi
 
 # ===== FIND LOMBOK =====
 LOMBOK_PATH=$JDTLS_ROOT/plugins

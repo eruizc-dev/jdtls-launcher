@@ -76,9 +76,9 @@ esac
     -Dlog.level=ALL \
     -Xms1g \
     -Xmx2G \
-    -javaagent:$LOMBOK \
-    -jar $EQUINOX_LAUNCHER \
-    -configuration $CONFIG \
+    -javaagent:"$LOMBOK" \
+    -jar "$EQUINOX_LAUNCHER" \
+    -configuration "$CONFIG" \
     -data "$HOME/workspace" \
     --add-modules=ALL-SYSTEM \
     --add-opens java.base/java.util=ALL-UNNAMED \

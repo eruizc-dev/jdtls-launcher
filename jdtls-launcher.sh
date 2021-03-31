@@ -27,7 +27,7 @@ fi
 
 # ===== FIND JDTLS =====
 JDTLS_ROOT="$JAVA_HOME/../jdtls"
-EQUINOX_LAUNCHER=`find $JDTLS_ROOT/plugins -nowarn -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
+EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -nowarn -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
 
 if ! [[ -f "$EQUINOX_LAUNCHER" ]]; then
     if ! [[ $INSTALL ]]; then
@@ -46,7 +46,7 @@ if ! [[ -f "$EQUINOX_LAUNCHER" ]]; then
     rm "$LATEST"
     chmod -R 777 "$JDTLS_ROOT"
 
-    EQUINOX_LAUNCHER=`find $JDTLS_ROOT/plugins -nowarn -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
+    EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -nowarn -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
     if ! [[ -f "$EQUINOX_LAUNCHER" ]]; then
         echo 'ERROR: JDTLS installation failure' > /dev/stderr
         exit 1

@@ -5,8 +5,8 @@ The simplest way to install and launch Eclipse's JDTLS!!
 ### Requirements
 
  - Linux, MacOS or WSL
- - `JAVA_HOME` is configured
- - `make` is installed
+ - `java` is available in path
+ - `openjdk` version 11 or higher
 
 ### Installation
 
@@ -15,26 +15,21 @@ TLDR:
 ```bash
 git clone https://github.com/eruizc-dev/jdtls-launcher.git && \
 cd jdtls-launcher && \
-sudo make install && \
-sudo -E jdtls --install && \
+sudo bash -c ./install.sh && \
 cd .. && \
 rm -rf ./jdtls-launcher
 ```
 
 Step by step:
 
- 1. Clone the repo
+ 1. Clone the repo and navigate to it
 
-    `git clone https://github.com/eruizc-dev/jdtls-launcher.git`
+    `git clone https://github.com/eruizc-dev/jdtls-launcher.git && cd jdtls-launcher`
 
- 2. Install jdtls launcher
+ 2. Install jdtls launcher with the included `install.sh` script
 
-    `sudo make install`
+    `sudo bash -c ./install.sh`
 
- 3. Run jdtls and let it install the language server
-
-    `sudo -E jdtls --install`
-
- 4. Make sure it runs without issues. You can delete the repo now!
+ 3. Make sure it runs without issues. If you see a json you can delete the repo now.
 
     `jdtls`

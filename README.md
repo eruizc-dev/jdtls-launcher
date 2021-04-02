@@ -22,6 +22,8 @@ The simplest way to install and launch Eclipse's JDTLS!!
 
     `jdtls`
 
+ You can find more in depth instructions in the [installation manual](./INSTALL.md)
+
 ### Editor configuration:
 
  - **Neovim**:

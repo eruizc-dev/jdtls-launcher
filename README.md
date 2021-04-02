@@ -10,18 +10,6 @@ The simplest way to install and launch Eclipse's JDTLS!!
 
 ### Installation
 
-TLDR:
-
-```bash
-git clone https://github.com/eruizc-dev/jdtls-launcher.git && \
-cd jdtls-launcher && \
-sudo bash -c ./install.sh && \
-cd .. && \
-rm -rf ./jdtls-launcher
-```
-
-Step by step:
-
  1. Clone the repo and navigate to it
 
     `git clone https://github.com/eruizc-dev/jdtls-launcher.git && cd jdtls-launcher`
@@ -33,3 +21,8 @@ Step by step:
  3. Make sure it runs without issues. If you see a json you can delete the repo now.
 
     `jdtls`
+
+### Editor configuration:
+
+ - **Neovim**:
+    - [nvim-lspconfig](./INSTALL.md#neovim-with-lspconfig)

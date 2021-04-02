@@ -1,7 +1,7 @@
 #!/bin/bash
 
 JDTLS_ROOT="/usr/local/lib/jdtls-launcher/jdtls"
-EQUINOX_LAUNCHER="$JDTLS_ROOT/plugins/org.eclipse.equinox.launcher_1.6.100.v20201223-0822.jar"
+EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*'`
 LOMBOK="$JDTLS_ROOT/plugins/lombok.jar"
 WORKSPACE="$HOME/workspace"
 

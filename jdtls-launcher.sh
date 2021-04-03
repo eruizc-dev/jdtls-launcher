@@ -5,6 +5,13 @@ EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.
 LOMBOK="$JDTLS_ROOT/plugins/lombok.jar"
 WORKSPACE="$HOME/workspace"
 
+case "$1" in
+    -v|--version)
+        echo "jdtls-launcher version v1.0.0"
+        exit 0
+        ;;
+esac
+
 SYSTEM=`uname -s`
 case "$SYSTEM" in
     [Ll]inux) # Linux and WSL

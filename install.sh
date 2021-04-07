@@ -18,7 +18,7 @@ function install_launcher {
 }
 
 function install_jdtls {
-    EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -nowarn -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
+    EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
     if [[ -f "EQUINOX_LAUNCHER" ]]; then
         echo "ERROR: JDTLS installation found at $JDTLS_ROOT" >> /dev/stderr
         exit 1
@@ -37,7 +37,7 @@ function install_jdtls {
     chmod -R 777 "$JDTLS_ROOT"
 
     # Installation check
-    EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -nowarn -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
+    EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
     if ! [[ -f "$EQUINOX_LAUNCHER" ]]; then
         echo 'ERROR: JDTLS installation failure' > /dev/stderr
         exit 1

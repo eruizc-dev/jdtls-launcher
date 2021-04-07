@@ -7,7 +7,7 @@ WORKSPACE="$HOME/workspace"
 
 case "$1" in
     -v|--version)
-        echo "jdtls-launcher version v1.0.0"
+        echo "jdtls-launcher version v1.0.1"
         exit 0
         ;;
 esac

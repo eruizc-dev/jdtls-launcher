@@ -9,7 +9,7 @@ LOMBOK="$JDTLS_ROOT/plugins/lombok.jar"
 WORKSPACE="$HOME/workspace"
 
 function get_version {
-    echo $(basename "$1" | sed 's/^[^-_]*[-_]\?\|\.jar$//g' | sed 's/^$/custom/')
+    echo $(basename "$1" | awk '{ gsub(/^[^-_]*[-_]?|\.jar$/, ""); print }' | awk '{ gsub(/^$/, "custom"); print }')
 }
 
 function print_version {

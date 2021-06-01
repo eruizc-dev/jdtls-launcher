@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### SCRIPT INFO ###
-SCRIPT_VERSION='v1.0.2'
+SCRIPT_VERSION='v1.1.0-alpha'
 
 JDTLS_ROOT="/usr/local/lib/jdtls-launcher/jdtls"
 EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*'`

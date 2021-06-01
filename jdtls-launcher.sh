@@ -1,5 +1,6 @@
 #!/bin/bash
 
+### SCRIPT INFO ###
 SCRIPT_VERSION='v1.0.2'
 
 JDTLS_ROOT="/usr/local/lib/jdtls-launcher/jdtls"
@@ -8,10 +9,12 @@ JDTLS_CORE=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.jdt.ls.core_*'
 LOMBOK="$JDTLS_ROOT/plugins/lombok.jar"
 WORKSPACE="$HOME/workspace"
 
+### UTILS ###
 function get_version {
     echo $(basename "$1" | awk '{ gsub(/^[^-_]*[-_]?|\.jar$/, ""); print }' | awk '{ gsub(/^$/, "custom"); print }')
 }
 
+### ACTIONS ###
 function print_version {
     echo "jdtls-launcher $SCRIPT_VERSION"
     echo "equinox-launcher $(get_version "$EQUINOX_LAUNCHER")"
@@ -20,9 +23,25 @@ function print_version {
     java --version
 }
 
+function print_help {
+    echo 'jdtls-launcher: install and launch jdtls with a single command'
+    echo 'available options:'
+    echo '  -v | --version      prints version of all components'
+    echo '  -h | --help         prints this menu'
+}
+
 case "$1" in
     -v|--version)
         print_version
+        exit 0
+        ;;
+    -h|--help)
+        print_help
+        exit 0
+        ;;
+    *)
+        echo "unknown option $1"
+        print_help
         exit 0
         ;;
 esac

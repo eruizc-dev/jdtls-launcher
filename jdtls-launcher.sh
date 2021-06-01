@@ -1,13 +1,28 @@
 #!/bin/bash
 
+SCRIPT_VERSION='v1.0.2'
+
 JDTLS_ROOT="/usr/local/lib/jdtls-launcher/jdtls"
 EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*'`
+JDTLS_CORE=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.jdt.ls.core_*'`
 LOMBOK="$JDTLS_ROOT/plugins/lombok.jar"
 WORKSPACE="$HOME/workspace"
 
+function get_version {
+    echo $(basename "$1" | sed 's/^[^-_]*[-_]\?\|\.jar$//g' | sed 's/^$/custom/')
+}
+
+function print_version {
+    echo "jdtls-launcher $SCRIPT_VERSION"
+    echo "equinox-launcher $(get_version "$EQUINOX_LAUNCHER")"
+    echo "jdtls-core $(get_version "$JDTLS_CORE")"
+    echo "lombok $(get_version "$LOMBOK")"
+    java --version
+}
+
 case "$1" in
     -v|--version)
-        echo "jdtls-launcher version v1.0.1"
+        print_version
         exit 0
         ;;
 esac

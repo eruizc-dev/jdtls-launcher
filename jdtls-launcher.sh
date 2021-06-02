@@ -34,6 +34,77 @@ function print_help {
     echo '  -h | --help         prints this menu'
 }
 
+function install_lombok {
+    echo 'Installing lombok...'
+    if [ ! -w "$SCRIPT_ROOT" ]; then
+        echo "Permission denied, don't you need sudo?" >> /dev/stderr
+        return 1
+    fi
+    if [ -f "$LOMBOK" ]; then
+        echo "Lombok installation found at $LOMBOK, aborting installation" >> /dev/stderr
+        return 0
+    fi
+
+    curl "https://projectlombok.org/downloads/lombok.jar" > "$LOMBOK"
+
+    if [ ! -f "$LOMBOK" ]; then
+        echo ' Lombok installation failure' > /dev/stderr
+        return 1
+    fi
+    echo 'Lombok installation succesfull'
+    return 0
+}
+
+function jdtls_install {
+    echo 'Installing jdtls...'
+    if [ ! -w "$SCRIPT_ROOT" ]; then
+        echo "Permission denied, don't you need sudo?" >> /dev/stderr
+        return 1
+    fi
+    if [ -d "$JDTLS_ROOT" ]; then
+        echo "Jdtls installation found at $JDTLS_ROOT, aborting installation" >> /dev/stderr
+        return 1
+    fi
+
+    LATEST=`curl -s 'http://download.eclipse.org/jdtls/snapshots/latest.txt'`
+    echo "${LATEST%.tar.gz} is going to be installed"
+
+    mkdir -p "$JDTLS_ROOT"
+    cd "$JDTLS_ROOT"
+
+    curl "http://download.eclipse.org/jdtls/snapshots/$LATEST" > "$LATEST"
+    tar -xf "$LATEST"
+    rm "$LATEST"
+    chmod -R 755 "$JDTLS_ROOT"
+    chmod -R 775 "$JDTLS_ROOT"/config_*
+
+    EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
+    if ! [[ -f "$EQUINOX_LAUNCHER" ]]; then
+        echo 'JDTLS installation failure' >> /dev/stderr
+        return 1
+    fi
+
+    install_lombok
+
+    echo 'JDTLS installation succesfull'
+    return 0
+}
+
+function jdtls_uninstall {
+    echo 'Uninstalling jdtls...'
+    if [ ! -w "$SCRIPT_ROOT" ]; then
+        echo "Permission denied, don't you need sudo?" >> /dev/stderr
+        return 1
+    fi
+    rm -rf "$JDTLS_ROOT"
+    echo 'JDTLS uninstalled'
+    return 0
+}
+
+function jdtls_reinstall {
+    jdtls_uninstall && jdtls_install
+}
+
 function jdtls_create_backup {
     echo 'Creating jdtls backup...'
     if [ ! -w "$SCRIPT_ROOT" ]; then
@@ -119,6 +190,18 @@ case "$1" in
         ;;
     --restore)
         jdtls_restore_backup
+        exit
+        ;;
+    --install)
+        jdtls_install
+        exit
+        ;;
+    --uninstall)
+        jdtls_uninstall
+        exit
+        ;;
+    --reinstall)
+        jdtls_reinstall
         exit
         ;;
     "")

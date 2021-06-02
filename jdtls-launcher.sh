@@ -9,6 +9,7 @@ JDTLS_ROOT="$SCRIPT_ROOT/jdtls"
 JDTLS_WORKSPACE="$HOME/.cache/jdtls-workspace"
 JDTLS_CORE=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.jdt.ls.core_*'`
 JDTLS_EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*'`
+JDTLS_BACKUP_ROOT="$SCRIPT_ROOT/jdtls-old"
 
 LOMBOK="$JDTLS_ROOT/plugins/lombok.jar"
 
@@ -31,6 +32,38 @@ function print_help {
     echo 'available options:'
     echo '  -v | --version      prints version of all components'
     echo '  -h | --help         prints this menu'
+}
+
+function jdtls_create_backup {
+    echo 'Creating jdtls backup...'
+    if [ ! -w "$SCRIPT_ROOT" ]; then
+        echo "Permission denied, don't you need sudo?" >> /dev/stderr
+        return 1
+    fi
+    if [ ! -d "$JDTLS_ROOT" ]; then
+        echo 'Cannot create backup, jdtls installation does not exist' >> /dev/stderr
+        return 1
+    fi
+    rm -rf "$JDTLS_BACKUP_ROOT"
+    cp -r "$JDTLS_ROOT" "$JDTLS_BACKUP_ROOT"
+    echo 'Backup created'
+    return 0
+}
+
+function jdtls_restore_backup {
+    echo 'Restoring jdtls backup...'
+    if [ ! -w "$SCRIPT_ROOT" ]; then
+        echo "Permission denied, don't you need sudo?" >> /dev/stderr
+        return 1
+    fi
+    if [ ! -d "$JDTLS_BACKUP_ROOT" ]; then
+        echo 'Cannot restore backup, backup does not exist' >> /dev/stderr
+        return 1
+    fi
+    rm -rf "$JDTLS_ROOT"
+    mv "$JDTLS_BACKUP_ROOT" "$JDTLS_ROOT"
+    echo 'Backup restored'
+    return 0
 }
 
 function run {
@@ -75,12 +108,20 @@ case "$1" in
         print_help
         exit 0
         ;;
+    --backup)
+        jdtls_create_backup
+        exit
+        ;;
+    --restore)
+        jdtls_restore_backup
+        exit
+        ;;
     "")
         run
         ;;
     *)
         echo "unknown option $1"
         print_help
-        exit 0
+        exit 1
         ;;
 esac

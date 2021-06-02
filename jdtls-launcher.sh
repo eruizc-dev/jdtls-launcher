@@ -2,7 +2,7 @@
 
 SYSTEM=`uname -s`
 
-SCRIPT_VERSION='v1.1.0-alpha'
+SCRIPT_VERSION='v1.1.0-beta'
 SCRIPT_ROOT=`dirname $(realpath "$0")`
 
 JDTLS_ROOT="$SCRIPT_ROOT/jdtls"

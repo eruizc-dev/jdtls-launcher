@@ -32,6 +32,11 @@ function print_help {
     echo 'available options:'
     echo '  -v | --version      prints version of all components'
     echo '  -h | --help         prints this menu'
+    echo '  --install           install jdtls if not installed'
+    echo '  --uninstall         uninstall jdtls if installed'
+    echo '  --reinstall         uninstall and install jdtls'
+    echo '  --backup            creates a backup of the current jdtls installation'
+    echo '  --restore           restores the jdtls backup'
 }
 
 function install_lombok {

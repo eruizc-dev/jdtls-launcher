@@ -7,8 +7,8 @@ SCRIPT_ROOT=`dirname $(realpath "$0")`
 
 JDTLS_ROOT="$SCRIPT_ROOT/jdtls"
 JDTLS_WORKSPACE="$HOME/.cache/jdtls-workspace"
-JDTLS_CORE=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.jdt.ls.core_*'`
-JDTLS_EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*'`
+JDTLS_CORE=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.jdt.ls.core_*' 2> /dev/null`
+JDTLS_EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
 JDTLS_BACKUP_ROOT="$SCRIPT_ROOT/jdtls-old"
 
 LOMBOK="$JDTLS_ROOT/plugins/lombok.jar"
@@ -67,6 +67,11 @@ function jdtls_restore_backup {
 }
 
 function run {
+    if [ ! -d "$JDTLS_ROOT" ]; then
+        echo 'Jdtls installation not found' >> /dev/stderr
+        return 1
+    fi
+
     case "$SYSTEM" in
         [Ll]inux) # Linux and WSL
             CONFIG="$JDTLS_ROOT/config_linux"
@@ -77,7 +82,7 @@ function run {
         *)
             echo "ERROR: Unknown or unsupported system $SYSTEM" >> /dev/stderr
             echo "Consider opening a new issue: https://github.com/eruizc-dev/jdtls-launcher/issues/new?title=Unsupported%20system%20$SYSTEM" >> /dev/stderr
-            exit 1
+            return 1
             ;;
     esac
 
@@ -118,6 +123,7 @@ case "$1" in
         ;;
     "")
         run
+        exit
         ;;
     *)
         echo "unknown option $1"

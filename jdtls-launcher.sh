@@ -34,7 +34,7 @@ function print_help {
     echo '  -h | --help         prints this menu'
     echo '  --install           install jdtls if not installed'
     echo '  --uninstall         uninstall jdtls if installed'
-    echo '  --reinstall         uninstall and install jdtls'
+    echo '  --reinstall         uninstall and install jdtls creating a backup and restoring in case of failure'
     echo '  --backup            creates a backup of the current jdtls installation'
     echo '  --restore           restores the jdtls backup'
 }
@@ -107,7 +107,11 @@ function jdtls_uninstall {
 }
 
 function jdtls_reinstall {
-    jdtls_uninstall && jdtls_install
+    if [ ! -w "$SCRIPT_ROOT" ]; then
+        echo "Permission denied, don't you need sudo?" >> /dev/stderr
+        return 1
+    fi
+    jdtls_create_backup && (jdtls_uninstall && jdtls_install || jdtls_restore_backup)
 }
 
 function jdtls_create_backup {

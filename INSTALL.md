@@ -8,75 +8,46 @@
 
 ## Uninstall
 
-Everything is installed under `/usr/local/lib/jdtls-launcher` and a soft link is
-created under `/usr/local/bin/jdtls`. Some eclipse stuff is stored in
-`$HOME/workspace`. Remove them as you wish, or copy paste this:
-
-`sudo rm -rf /usr/local/lib/jdtls-launcher /usr/local/bin/jdtls $HOME/workspace`
+ 1. Search for symlinks and delete them
+    `where jdtls | sudo rm`
+ 2. Delete install locations, commonly under `/usr/local/lib/jdtls-launcher` or
+ `~/.local/lib/jdtls-launcher`
+    `sudo rm -rf /usr/local/lib/jdtls-launcher ~/.local/lib/jdtls-launcher`
 
 ## Install
 
-### Prequisites
-
- - `java` must be an accesible command. For that you will have to install Java 11 or higher.
- If you're in WSL and you installed Java from the Windows installer, you will need to install
- Java again but this time inside the Linux subsystem.
-
- - `git` must be installed.
-
- - `bash` must be installed.
-
 ### TLDR installation
 
-```bash
-git clone https://github.com/eruizc-dev/jdtls-launcher.git && \
-cd jdtls-launcher && \
-sudo bash -c ./install.sh && \
-cd .. && \
-rm -rf ./jdtls-launcher
+```sh
+curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | sudo bash
 ```
 
-### Step by step installation
+### Via install script
 
-From the Linux/MacOS command line execute the following commands:
+**User Level installation** (installs in `~/.local/lib`, does not require sudo)
 
- 1. Clone the repo
+```sh
+curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
+```
 
-    `git clone https://github.com/eruizc-dev/jdtls-launcher.git
+**System Level installation** (installs in `/usr/local/lib`)
 
- 2. Navigate inside the repo directory
+```sh
+curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | sudo bash
+```
 
-   `cd jdtls-launcher`
+**Custom location installation**
+You can pass a parameter to the `install.sh` script with a custom install
+location. That's the final directory the script will use. Example:
 
- 3. Run the installation `install.sh` script with root privileges.
+```bash
+curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | sudo bash -s /usr/lib/jdtls-launcher
+```
 
-    `sudo bash -c ./install.sh`
+### Manual installation
 
- 4. Run the `jdtls` command
-
-    `jdtl`
-
- 5. If the output looks like the folowing it means it's working. You can stop
- it by pressing CTRL+C.
-
-    ```
-    Listening for transport dt_socket at address: 1044
-    WARNING: An illegal reflective access operation has occurred
-    WARNING: Illegal reflective access by org.eclipse.osgi.internal.loader.ModuleClassLoader (file:/usr/local/lib/jdtls-launcher/jdtls/plugins/org.eclipse.osgi_3.16.200.v20210226-1447.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int)
-    WARNING: Please consider reporting this to the maintainers of org.eclipse.osgi.internal.loader.ModuleClassLoader
-    WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
-    WARNING: All illegal access operations will be denied in a future release
-    Content-Length: 125
-    
-    {"jsonrpc":"2.0","method":"window/logMessage","params":{"type":3,"message":"Apr 1, 2021, 9:30:02 PM Main thread is waiting"}}
-    ```
-
- 6. You can now delete the directory you've just created.
-
-    - `cd ..`
-    - `rm -r ./jdtls-launcher`
-
- 7. Report anny issues during the isntallation process [HERE](https://github.com/eruizc-dev/jdtls-launcher/issues/new)
+ 1. Put the `jdtls-launcher.sh` file wherever you want
+ 2. Execute the file passing it `--install` option
 
 ## Editor set-up
 
@@ -88,6 +59,8 @@ From the Linux/MacOS command line execute the following commands:
  ```vim
  lua require'lspconfig'.jdtls.setup{
  \   cmd = { 'jdtls' },
- \   root_dir = require'lspconfig'.util.root_pattern('pom.xml', 'gradle.build', '.git')
+ \   root_dir = function(fname)
+ \      return require'lspconfig'.util.root_pattern('pom.xml', 'gradle.build', '.git')(fname) or vim.fn.getcwd()
+ \   end
  \}
  ```

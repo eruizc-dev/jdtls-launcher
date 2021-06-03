@@ -10,19 +10,21 @@ The simplest way to install and launch Eclipse's JDTLS!!
 
 ### Installation
 
- 1. Clone the repo and navigate to it
+**IMPORTANT:** Manually delete any previous installation using `rm -rf`
 
-    `git clone https://github.com/eruizc-dev/jdtls-launcher.git && cd jdtls-launcher`
+**User Level installation** (installs in `~/.local/lib`, does not require sudo)
 
- 2. Install jdtls launcher with the included `install.sh` script
+```sh
+curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
+```
 
-    `sudo bash -c ./install.sh`
+**System Level installation** (installs in `/usr/local/lib`)
 
- 3. Make sure it runs without issues. If you see a json you can delete the repo now.
+```sh
+curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | sudo bash
+```
 
-    `jdtls`
-
- You can find more in depth instructions in the [installation manual](./INSTALL.md)
+For custom location check [advanced installation](./INSTALL.md)
 
 ### Editor configuration:
 

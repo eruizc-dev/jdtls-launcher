@@ -12,7 +12,7 @@ else
 fi
 INSTALL_ROOT=${INSTALL_LOCATION%/*}
 TARBALL_LOCATION='/tmp/jdtls-launcher.tar.gz'
-DOWNLOAD_URL=`curl -u 'eruizc-dev' -s https://api.github.com/repos/eruizc-dev/jdtls-launcher/releases/latest | grep 'tarball_url' | egrep -o 'https://[^"]+'`
+DOWNLOAD_URL=`curl -s https://api.github.com/repos/eruizc-dev/jdtls-launcher/releases/latest | grep 'tarball_url' | egrep -o 'https://[^"]+'`
 
 ### CHECK PERMISSIONS ###
 if [ ! -d "$INSTALL_ROOT" ]; then

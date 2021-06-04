@@ -1,15 +1,31 @@
 #!/bin/bash
 
-### GATHER INSTALL INFORMATION ###
-if  [ "$EUID" -ne 0 ]; then
-    echo 'INFO: Performing user level installation'
-    INSTALL_LOCATION=${1:-"$HOME/.local/lib/jdtls-launcher"}
-    LINK_LOCATION="$HOME/.local/bin/jdtls"
+### GATHER SYSTEM INFORMATION ###
+SYSTEM=`uname -s`
+if [ "$SYSTEM" == 'Darwin' ]; then
+    if  [ "$EUID" -ne 0 ]; then
+        echo 'INFO: Performing system level installation'
+        INSTALL_LOCATION=${1:-'/usr/local/lib/jdtls-launcher'}
+        LINK_LOCATION='/usr/local/bin/jdtls'
+    else
+        echo 'ERROR: sudo is not necessary for a MACOS installation' >> /dev/stderr
+        exit 1
+    fi
+elif [ "$SYSTEM" == 'Linux' ]; then
+    if  [ "$EUID" -ne 0 ]; then
+        echo 'INFO: Performing user level installation'
+        INSTALL_LOCATION=${1:-"$HOME/.local/lib/jdtls-launcher"}
+        LINK_LOCATION="$HOME/.local/bin/jdtls"
+    else
+        echo 'INFO: Performing system level installation'
+        INSTALL_LOCATION=${1:-'/usr/local/lib/jdtls-launcher'}
+        LINK_LOCATION='/usr/local/bin/jdtls'
+    fi
 else
-    echo 'INFO: Performing system level installation'
-    INSTALL_LOCATION=${1:-'/usr/local/lib/jdtls-launcher'}
-    LINK_LOCATION='/usr/local/bin/jdtls'
+    echo "ERROR: $SYSTEM not supported" >> /dev/stderr
+    exit 1
 fi
+
 INSTALL_ROOT=${INSTALL_LOCATION%/*}
 TARBALL_LOCATION='/tmp/jdtls-launcher.tar.gz'
 DOWNLOAD_URL=`curl -s https://api.github.com/repos/eruizc-dev/jdtls-launcher/releases/latest | grep 'tarball_url' | egrep -o 'https://[^"]+'`

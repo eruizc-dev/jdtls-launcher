@@ -82,13 +82,9 @@ To update jdtls-launcher you have to manually [uninstall](#uninstall) and
 
 ### Uninstall
 
-Remove symlink and `jdtls-launcher` directory.
- - You can find the directory following the symlink with `realpath jdtls`
+Remove symlink and `jdtls-launcher` directory with `rm -rf`.
+ - You can find the directory following the symlink with `dirname $(realpath jdtls)`
  - You can find the symlink locatin with `where jdtls`
-
-```bash
-sudo rm -rf `realpath jdtls` `where jdtls`
-```
 
 ### Editor configuration:
 

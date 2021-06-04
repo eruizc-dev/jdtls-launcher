@@ -81,7 +81,7 @@ function jdtls_install {
     tar -xf "$LATEST"
     rm "$LATEST"
     chmod -R 755 "$JDTLS_ROOT"
-    chmod -R 775 "$JDTLS_ROOT"/config_*
+    chmod -R 777 "$JDTLS_ROOT"/config_*
 
     EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
     if ! [[ -f "$EQUINOX_LAUNCHER" ]]; then

@@ -1,0 +1,44 @@
+name: Test installer
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  linux-installation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+    - name: Install
+      run: curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | sudo bash
+    - name: Test symlink
+      run: jdtls --version
+    - name: Ensure runs
+      run: |
+        jdtls &  # Execute in background
+        sleep 5  # Wait for it to start
+        kill $!  # If it succeeded, we should be able to kill it
+    
+  mac-installation:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+    - name: Install
+      run: curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
+    - name: Test symlink
+      run: jdtls --version
+    - name: Ensure runs
+      run: |
+        jdtls &  # Execute in background
+        sleep 5  # Wait for it to start
+        kill $!  # If it succeeded, we should be able to kill it
+

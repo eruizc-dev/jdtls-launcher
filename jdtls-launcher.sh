@@ -2,7 +2,7 @@
 
 SYSTEM=`uname -s`
 
-SCRIPT_VERSION='v1.1.0-pre-release'
+SCRIPT_VERSION='v1.1.2'
 SCRIPT_ROOT=`dirname $(realpath "$0")`
 
 JDTLS_ROOT="$SCRIPT_ROOT/jdtls"
@@ -32,9 +32,9 @@ function print_help {
     echo 'available options:'
     echo '  -v | --version      prints version of all components'
     echo '  -h | --help         prints this menu'
-    echo '  --install           install jdtls if not installed'
+    echo '  -i | --install      install jdtls if not installed'
     echo '  --uninstall         uninstall jdtls if installed'
-    echo '  --reinstall         uninstall and install jdtls creating a backup and restoring in case of failure'
+    echo '  --update            uninstall and install jdtls creating a backup and restoring in case of failure'
     echo '  --backup            creates a backup of the current jdtls installation'
     echo '  --restore           restores the jdtls backup'
 }
@@ -201,7 +201,7 @@ case "$1" in
         jdtls_restore_backup
         exit
         ;;
-    --install)
+    -i|--install)
         jdtls_install
         exit
         ;;
@@ -209,7 +209,7 @@ case "$1" in
         jdtls_uninstall
         exit
         ;;
-    --reinstall)
+    --update)
         jdtls_reinstall
         exit
         ;;

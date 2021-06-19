@@ -1,11 +1,10 @@
-## JDTLS - Launcher
+# JDTLS - Launcher
 
 The simplest way to install and launch Eclipse's JDTLS!!
 
  - [Requirements](#requirements)
  - [Installation](#installation)
-    - [MacOS](#macos-installation)
-    - [Linux / WSL](#linux-%2F-wsl-installation)
+    - [Automatic installation](#automatic-installation)
     - [Manual Installation](#manual-installation)
  - [Updating](#updating)
  - [Uninstall](#uninstall)
@@ -14,63 +13,49 @@ The simplest way to install and launch Eclipse's JDTLS!!
 
 ---
 
-### Requirements:
+## Requirements:
 
- - Java 11 (available in path)
+ - Java 11+ (available in path)
  - Linux, MacOS or WSL
 
-### Install
+## Installation:
 
-**IMPORTANT:** [uninstall](#uninstall) any previous installation
+### Automatic installation:
 
-#### MacOS Installation
+**Important**: [uninstall](#uninstall) any previous installation.
 
-**System level installation**:
- - Installs in `/usr/local/lib/jdtls-launcher`
- - Creates symlink in `/usr/local/bin`
+ - Script will be installed to `/usr/local/lib/jdtls-launcher`
+ - A symlink called `jdtls` will be created in `/usr/local/bin`
 
-```sh
-curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
-```
+##### Linux / WSL:
 
-#### Linux / Wsl Installation
+`curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | sudo bash`
 
-**System Level installation**
- - Installs in `/usr/local/lib/jdtls-launcher`
- - Creates symlink in `/usr/local/bin`
+##### MacOS:
 
-```sh
-curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | sudo bash
-```
+`curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash`
 
-**User Level installation**
- - Installs in `~/.local/lib/jdtls-launcher`
- - Creates symlink in `~/.local/bin`
+##### Custom install location:
 
-```sh
-curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
-```
+Append `-s /path/to/dir` to the installation command
+ - A directory called `jdtls-launcher` will be created inside that directory
+ - Sudo may not be required
+ - Symlinks won't be created
 
-#### Manual Installation
+### Manual Installation:
 
- 1. Choose a destination to install. Avoid PATH locations since the script
-    installs dependencies alongside it.
- 2. Create a symlink in your path if you need it
- 3. Run the script with `--install` option, this will install all dependencies
+ 1. Download source code from [releases](https://github.com/eruizc-dev/jdtls-launcher/releases)
+    or directly from the [master branch]()
+ 2. Unzip it and place `jdtls-launcher.sh` script in your desired install
+    location
+ 3. Run the script with `--install` option to install jdtls and lombook
+    alongside the script in a directory called `jdtls` (user must have write
+    permissions)
+ 4. Run the script `jdtls-launcher.sh` without arguments to start the language
+    server
+ 5. Optional: Add directory to path or create a symlink to a location in path
 
-#### Aditional options
-
-**Custom location**
- - Append `-s /path/to/folder` to either system or user installation
- - The script won't create any extra directories, so make sure you finish it
-`jdtls-launcher`
- - Symlinks will still be created to their respective destinations
-
-```sh
-curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | sudo bash -s /usr/lib/jdtls-launcher
-```
-
-### Update
+## Update
 
 To update jdtls and lombook it's as simple as `jdtls --update`
 
@@ -80,17 +65,17 @@ command.
 To update jdtls-launcher you have to manually [uninstall](#uninstall) and
 [reinstall](#install)
 
-### Uninstall
+## Uninstall
 
 Remove symlink and `jdtls-launcher` directory with `rm -rf`.
- - You can find the directory following the symlink with `dirname $(realpath jdtls)`
- - You can find the symlink locatin with `where jdtls`
+ - Symlink locations can be found using `where jdtls` or `which jdtls`
+ - Install location can be found using `dirname $(realpath jdtls)`
 
-### Editor configuration:
+## Editor configuration:
 
 #### Neovim with [lspconfig](https://github.com/neovim/nvim-lspconfig)
 
-In your vimrc add the following:
+Add the following to your **init.vim**
 
 ```vim
 lua require'lspconfig'.jdtls.setup{

@@ -3,28 +3,24 @@
 ### GATHER SYSTEM INFORMATION ###
 SYSTEM=`uname -s`
 if [ "$SYSTEM" == 'Darwin' ]; then
-    if  [ "$EUID" -ne 0 ]; then
-        echo 'INFO: Performing system level installation'
-        INSTALL_LOCATION=${1:-'/usr/local/lib/jdtls-launcher'}
-        LINK_LOCATION='/usr/local/bin/jdtls'
-    else
+    if  [ "$EUID" -eq 0 ]; then
         echo 'ERROR: sudo is not necessary for a MACOS installation' >> /dev/stderr
         exit 1
     fi
+    echo 'INFO: Performing system level installation'
 elif [ "$SYSTEM" == 'Linux' ]; then
-    if  [ "$EUID" -ne 0 ]; then
-        echo 'INFO: Performing user level installation'
-        INSTALL_LOCATION=${1:-"$HOME/.local/lib/jdtls-launcher"}
-        LINK_LOCATION="$HOME/.local/bin/jdtls"
-    else
+    if  [ "$EUID" -eq 0 ]; then
         echo 'INFO: Performing system level installation'
-        INSTALL_LOCATION=${1:-'/usr/local/lib/jdtls-launcher'}
-        LINK_LOCATION='/usr/local/bin/jdtls'
+    else
+        echo 'INFO: Performing user level installation'
     fi
 else
     echo "ERROR: $SYSTEM not supported" >> /dev/stderr
     exit 1
 fi
+
+INSTALL_LOCATION=${1:-'/usr/local/lib'}'/jdtls-launcher'
+LINK_LOCATION='/usr/local/bin/jdtls'
 
 INSTALL_ROOT=${INSTALL_LOCATION%/*}
 TARBALL_LOCATION='/tmp/jdtls-launcher.tar.gz'
@@ -57,9 +53,11 @@ mv "$INSTALL_ROOT"/eruizc-dev-jdtls-launcher* "$INSTALL_LOCATION"
 chmod -R 755 "$INSTALL_LOCATION"
 
 ### CREATE LINK ###
-echo "INFO: Creating symlink ${LINK_LOCATION}"
-rm "$LINK_LOCATION" 2> /dev/null
-ln -s "$INSTALL_LOCATION/jdtls-launcher.sh" "$LINK_LOCATION"
+if [ "$INSTALL_LOCATION" == '/usr/local/lib/jdtls-launcher' ]; then
+    echo "INFO: Creating symlink ${LINK_LOCATION}"
+    rm "$LINK_LOCATION" 2> /dev/null
+    ln -s "$INSTALL_LOCATION/jdtls-launcher.sh" "$LINK_LOCATION"
+fi
 
 ### INSTALL JDTLS ###
 jdtls --install

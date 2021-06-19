@@ -1,5 +1,9 @@
 #!/bin/bash
 
+function realpath {
+    ls -la "$1" | grep jdtls | awk '{ print $11 }'
+}
+
 SYSTEM=`uname -s`
 
 SCRIPT_VERSION='v1.1.2'

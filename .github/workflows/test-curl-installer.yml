@@ -1,14 +1,12 @@
-name: Test installer
+name: Test curl installer
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: [master]
   workflow_dispatch:
 
 jobs:
-  linux-installation:
+  installation-linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/setup-java@v2
@@ -16,16 +14,16 @@ jobs:
         distribution: 'adopt'
         java-version: '11'
     - name: Install
-      run: curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | sudo bash
+      run: curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
     - name: Test symlink
-      run: jdtls --version
+      run: ~/.local/bin/jdtls --version
     - name: Ensure runs
       run: |
-        jdtls &  # Execute in background
+        ~/.local/bin/jdtls &  # Execute in background
         sleep 5  # Wait for it to start
         kill $!  # If it succeeded, we should be able to kill it
-    
-  mac-installation:
+
+  installation-macos:
     runs-on: macos-latest
     steps:
     - uses: actions/setup-java@v2
@@ -35,10 +33,10 @@ jobs:
     - name: Install
       run: curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
     - name: Test symlink
-      run: jdtls --version
+      run: ~/.local/bin/jdtls --version
     - name: Ensure runs
       run: |
-        jdtls &  # Execute in background
+        ~/.local/bin/jdtls &  # Execute in background
         sleep 5  # Wait for it to start
         kill $!  # If it succeeded, we should be able to kill it
 

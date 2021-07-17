@@ -24,23 +24,24 @@ The simplest way to install and launch Eclipse's JDTLS!!
 
 **Important**: [uninstall](#uninstall) any previous installation.
 
- - Script will be installed to `/usr/local/lib/jdtls-launcher`
- - A symlink called `jdtls` will be created in `/usr/local/bin`
+ - Script will be installed to `~/.local/opt/jdtls-launcher`
+ - A symlink called `jdtls` will be created in `~/.local/bin/jdtls`
 
-##### Linux / WSL:
+##### Linux / MacOS / WSL:
 
-`curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | sudo bash`
-
-##### MacOS:
-
-`curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash`
+ 1. Run the installation script:
+    `curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash`
+ 2. Add `~/.local/bin` to your path
+    ```sh
+    # .bashrc, .zshrc or whatever shell you use
+    export PATH=$PATH:$HOME/.local/bin
+    ```
 
 ##### Custom install location:
 
 Append `-s /path/to/dir` to the installation command
  - A directory called `jdtls-launcher` will be created inside that directory
- - Sudo may not be required
- - Symlinks won't be created
+ - A symlink will still be created to the same location
 
 ### Manual Installation:
 
@@ -53,7 +54,6 @@ Append `-s /path/to/dir` to the installation command
     permissions)
  4. Run the script `jdtls-launcher.sh` without arguments to start the language
     server
- 5. Optional: Add directory to path or create a symlink to a location in path
 
 ## Update
 

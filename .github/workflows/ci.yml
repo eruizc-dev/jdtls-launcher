@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [master, nightly]
+  pull_request:
+    branches: [master, nightly]
+  workflow_dispatch:
+
+jobs:
+  curl-installation-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+    - name: Install
+      run: |
+        bash ./install.sh
+    - name: Test symlink
+      run: ~/.local/bin/jdtls --version
+    - name: Ensure runs
+      run: |
+        ~/.local/bin/jdtls &  # Execute in background
+        sleep 5  # Wait for it to start
+        kill $!  # If it succeeded, we should be able to kill it
+
+  curl-installation-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+    - name: Install
+      run: bash ./install.sh
+    - name: Test symlink
+      run: ~/.local/bin/jdtls --version
+    - name: Ensure runs
+      run: |
+        ~/.local/bin/jdtls &  # Execute in background
+        sleep 5  # Wait for it to start
+        kill $!  # If it succeeded, we should be able to kill it

@@ -30,7 +30,9 @@ The simplest way to install and launch Eclipse's JDTLS!!
 ##### Linux / MacOS / WSL:
 
  1. Run the installation script:
-    `curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash`
+    ```
+    curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
+    ```
  2. Add `~/.local/bin` to your path
     ```sh
     # .bashrc, .zshrc or whatever shell you use

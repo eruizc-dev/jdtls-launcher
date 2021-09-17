@@ -75,13 +75,13 @@ function jdtls_install {
         return 1
     fi
 
-    LATEST=`curl -s 'http://download.eclipse.org/jdtls/snapshots/latest.txt'`
+    LATEST=`curl -Ls 'http://download.eclipse.org/jdtls/snapshots/latest.txt'`
     echo "${LATEST%.tar.gz} is going to be installed"
 
     mkdir -p "$JDTLS_ROOT"
     cd "$JDTLS_ROOT"
 
-    curl "http://download.eclipse.org/jdtls/snapshots/$LATEST" > "$LATEST"
+    curl -L "http://download.eclipse.org/jdtls/snapshots/$LATEST" > "$LATEST"
     tar -xf "$LATEST"
     rm "$LATEST"
     chmod -R 755 "$JDTLS_ROOT"

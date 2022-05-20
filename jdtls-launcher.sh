@@ -6,7 +6,7 @@ function realpath {
 
 SYSTEM=`uname -s`
 
-SCRIPT_VERSION='v1.1.4'
+SCRIPT_VERSION='v1.1.5'
 SCRIPT_ROOT=`dirname $(realpath "$0")`
 
 JDTLS_ROOT="$SCRIPT_ROOT/jdtls"
@@ -171,7 +171,6 @@ function run {
     esac
 
     java \
-        -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044 \
         -Declipse.application=org.eclipse.jdt.ls.core.id1 \
         -Dosgi.bundles.defaultStartLevel=4 \
         -Declipse.product=org.eclipse.jdt.ls.core.product \

@@ -54,7 +54,7 @@ function install_lombok {
         return 0
     fi
 
-    curl "https://projectlombok.org/downloads/lombok.jar" > "$LOMBOK"
+    curl "https://projectlombok.org/downloads/lombok.jar" --output "$LOMBOK"
 
     if [ ! -f "$LOMBOK" ]; then
         echo ' Lombok installation failure' > /dev/stderr
@@ -81,7 +81,7 @@ function jdtls_install {
     mkdir -p "$JDTLS_ROOT"
     cd "$JDTLS_ROOT"
 
-    curl -L "http://download.eclipse.org/jdtls/snapshots/$LATEST" > "$LATEST"
+    curl -L "http://download.eclipse.org/jdtls/snapshots/$LATEST" --output "$LATEST"
     tar -xf "$LATEST"
     rm "$LATEST"
     chmod -R 755 "$JDTLS_ROOT"

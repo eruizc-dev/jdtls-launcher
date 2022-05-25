@@ -6,7 +6,7 @@ function realpath {
 
 SYSTEM=`uname -s`
 
-SCRIPT_VERSION='v1.1.5'
+SCRIPT_VERSION='v1.1.6'
 SCRIPT_ROOT=`dirname $(realpath "$0")`
 
 JDTLS_ROOT="$SCRIPT_ROOT/jdtls"

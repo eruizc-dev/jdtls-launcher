@@ -32,7 +32,7 @@ fi
 
 ### DOWNLOAD JDTLS-LAUNCHER ###
 echo 'INFO: Downloading JDTLS-LAUNCHER'
-curl -fLo "$TARBALL_LOCATION" "$DOWNLOAD_URL" 
+curl -L "$DOWNLOAD_URL" -f --output "$TARBALL_LOCATION" --progress-bar
 
 echo 'INFO: Extracting JDTLS-LAUNCHER'
 tar -xf "$TARBALL_LOCATION" --directory "$INSTALL_ROOT"
@@ -50,4 +50,3 @@ $LINK_LOCATION --install
 ### NOTIFY SUCCESS ###
 echo 'INFO: Installation successful'
 echo "INFO: Ensure $LINK_ROOT is in path"
-

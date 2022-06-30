@@ -15,7 +15,7 @@ The simplest way to install and launch Eclipse's JDTLS!!
 
 ## Requirements:
 
- - Java 11+ (available in path)
+ - Java 17+ (available in path)
  - Linux, MacOS or WSL
 
 ## Installation:

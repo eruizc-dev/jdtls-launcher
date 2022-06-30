@@ -175,7 +175,6 @@ function run {
         -Dosgi.bundles.defaultStartLevel=4 \
         -Declipse.product=org.eclipse.jdt.ls.core.product \
         -Dlog.level=ALL \
-        -noverify \
         -Xmx1G \
         -javaagent:"$LOMBOK" \
         -jar "$JDTLS_EQUINOX_LAUNCHER" \

@@ -13,8 +13,8 @@ jobs:
     steps:
     - uses: actions/setup-java@v2
       with:
-        distribution: 'adopt'
-        java-version: '11'
+        distribution: 'temurin'
+        java-version: '17'
     - name: Install
       run: curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
     - name: Test symlink
@@ -30,8 +30,8 @@ jobs:
     steps:
     - uses: actions/setup-java@v2
       with:
-        distribution: 'adopt'
-        java-version: '11'
+        distribution: 'temurin'
+        java-version: '17'
     - name: Install
       run: curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
     - name: Test symlink

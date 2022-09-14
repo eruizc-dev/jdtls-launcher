@@ -10,7 +10,7 @@ SCRIPT_VERSION='v1.1.6'
 SCRIPT_ROOT=`dirname $(realpath "$0")`
 
 JDTLS_ROOT="$SCRIPT_ROOT/jdtls"
-JDTLS_WORKSPACE="$HOME/.cache/jdtls-workspace"
+JDTLS_WORKSPACE="${XDG_CACHE_HOME:-$HOME/.cache}/jdtls-workspace"
 JDTLS_CORE=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.jdt.ls.core_*' 2> /dev/null`
 JDTLS_EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
 JDTLS_BACKUP_ROOT="$SCRIPT_ROOT/jdtls-old"

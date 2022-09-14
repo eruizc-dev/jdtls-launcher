@@ -34,13 +34,13 @@ function print_version {
 function print_help {
     echo 'jdtls-launcher: install and launch jdtls with a single command'
     echo 'available options:'
-    echo '  -v | --version      prints version of all components'
-    echo '  -h | --help         prints this menu'
-    echo '  -i | --install      install jdtls if not installed'
-    echo '  --uninstall         uninstall jdtls if installed'
-    echo '  --update            uninstall and install jdtls creating a backup and restoring in case of failure'
-    echo '  --backup            creates a backup of the current jdtls installation'
-    echo '  --restore           restores the jdtls backup'
+    echo '  -v | --version            prints version of all components'
+    echo '  -h | --help               prints this menu'
+    echo '  -i | --install [version]  install jdtls if not installed. optionally specify a version like 1.15.0'
+    echo '  --uninstall               uninstall jdtls if installed'
+    echo '  --update                  uninstall and install jdtls creating a backup and restoring in case of failure'
+    echo '  --backup                  creates a backup of the current jdtls installation'
+    echo '  --restore                 restores the jdtls backup'
 }
 
 function install_lombok {

@@ -2,7 +2,6 @@
 
 Thank you for contributing to this project! Here's a couple things to keep in
 mind before contributing:
- - All PRs must be made to branch `nightly` since master is considered stable
  - For documentation: nothing here, just make your PR
  - For fixes: [open an issue][new-issue] so it gets recorded and someone with
    similar issue can find an answer

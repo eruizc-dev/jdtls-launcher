@@ -99,6 +99,48 @@ function jdtls_install {
     return 0
 }
 
+# Takes a VERSION as argument. EXAMPLE: jdtls_install_version "1.15.0"
+function jdtls_install_version {
+    VERSION="$1"
+    echo "Finding jdtls:${VERSION}"
+    if [ ! -w "$SCRIPT_ROOT" ]; then
+        echo "Permission denied, don't you need sudo?" >> /dev/stderr
+        return 1
+    fi
+    if [ -d "$JDTLS_ROOT" ]; then
+        echo "Jdtls installation found at $JDTLS_ROOT, aborting installation" >> /dev/stderr
+        return 1
+    fi
+
+    # EXAMPLE LINK: https://download.eclipse.org/jdtls/milestones/1.15.0/latest.txt
+    LATEST=$(curl -fLs "http://download.eclipse.org/jdtls/milestones/${VERSION}/latest.txt")
+    if [ -z "$LATEST" ]; then
+        echo "ERROR: curl http://download.eclipse.org/jdtls/milestones/${VERSION}/latest.txt failed. Are you sure that version exists?" >> /dev/stderr
+        exit 1
+    fi
+    echo "${LATEST%.tar.gz} is going to be installed"
+
+    mkdir -p "$JDTLS_ROOT"
+    cd "$JDTLS_ROOT"
+    curl -L "http://download.eclipse.org/jdtls/milestones/$VERSION/$LATEST" --output "$LATEST" --progress-bar
+    tar -xf "$LATEST"
+    rm "$LATEST"
+    chmod -R 755 "$JDTLS_ROOT"
+    chmod -R 777 "$JDTLS_ROOT"/config_*
+
+    EQUINOX_LAUNCHER=`find "$JDTLS_ROOT/plugins" -type f -name 'org.eclipse.equinox.launcher_*' 2> /dev/null`
+    if ! [[ -f "$EQUINOX_LAUNCHER" ]]; then
+        echo 'JDTLS installation failure' >> /dev/stderr
+        return 1
+    fi
+
+    install_lombok
+
+    echo "JDTLS:$VERSION installation succesfull"
+    return 0
+}
+
+
 function jdtls_uninstall {
     echo 'Uninstalling jdtls...'
     if [ ! -w "$SCRIPT_ROOT" ]; then
@@ -204,7 +246,11 @@ case "$1" in
         exit
         ;;
     -i|--install)
-        jdtls_install
+        if [ -z "$2" ]; then
+            jdtls_install
+        else
+            jdtls_install_version $2
+        fi
         exit
         ;;
     --uninstall)

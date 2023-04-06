@@ -6,13 +6,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  installation-linux:
-    runs-on: ubuntu-latest
+  installation:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        jdk: [17]
+
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
-        java-version: '17'
+        java-version: ${{ matrix.jdk }}
     - name: Install
       run: curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
     - name: Test symlink
@@ -22,21 +28,3 @@ jobs:
         ~/.local/bin/jdtls &  # Execute in background
         sleep 5  # Wait for it to start
         kill $!  # If it succeeded, we should be able to kill it
-
-  installation-macos:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-    - name: Install
-      run: curl -s https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
-    - name: Test symlink
-      run: ~/.local/bin/jdtls --version
-    - name: Ensure runs
-      run: |
-        ~/.local/bin/jdtls &  # Execute in background
-        sleep 5  # Wait for it to start
-        kill $!  # If it succeeded, we should be able to kill it
-

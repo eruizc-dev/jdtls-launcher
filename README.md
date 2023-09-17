@@ -1,89 +1,24 @@
 # JDTLS - Launcher
 
-The simplest way to install and launch Eclipse's JDTLS!!
+JDTLS Launcher was a simple script that allowed you to easily install and execute
+[Eclipse's JDT Language Server](https://github.com/eclipse-jdtls/eclipse.jdt.ls#).
+It included awesome features like updates, and backups, and
+[Lombok](https://projectlombok.org/) configuration.
 
- - [Requirements](#requirements)
- - [Installation](#installation)
-    - [Automatic installation](#automatic-installation)
-    - [Manual Installation](#manual-installation)
- - [Updating](#updating)
- - [Uninstall](#uninstall)
- - [Editor configuration](#editor-configuration)
-    - [Neovim with lspconfig](#neovim-with-lspconfig)
+# Deprecation notice
 
----
+As better alternatives keep appearing, this project was archived on September 17 2023.
 
-## Requirements:
+This script works and will continue working for a while, but if you run into any issues
+I suggest migrating to your favorite package manager. Some examples:
 
- - Java 17+ (available in path)
- - Linux, MacOS or WSL
-
-## Installation:
-
-### Automatic installation:
-
-**Important**: [uninstall](#uninstall) any previous installation.
-
- - Script will be installed to `~/.local/opt/jdtls-launcher`
- - A symlink called `jdtls` will be created in `~/.local/bin/jdtls`
-
-##### Linux / MacOS / WSL:
-
- 1. Run the installation script:
-    ```
-    curl https://raw.githubusercontent.com/eruizc-dev/jdtls-launcher/master/install.sh | bash
-    ```
- 2. Add `~/.local/bin` to your path
-    ```sh
-    # .bashrc, .zshrc or whatever shell you use
-    export PATH=$PATH:$HOME/.local/bin
-    ```
-
-##### Custom install location:
-
-Append `-s /path/to/dir` to the installation command
- - A directory called `jdtls-launcher` will be created inside that directory
- - A symlink will still be created to the same location
-
-### Manual Installation:
-
- 1. Download source code from [releases](https://github.com/eruizc-dev/jdtls-launcher/releases)
-    or directly from the [master branch]()
- 2. Unzip it and place `jdtls-launcher.sh` script in your desired install
-    location
- 3. Run the script with `--install` option to install jdtls and lombook
-    alongside the script in a directory called `jdtls` (user must have write
-    permissions)
- 4. Run the script `jdtls-launcher.sh` without arguments to start the language
-    server
-
-## Update
-
-To update jdtls and lombook it's as simple as `jdtls --update`
-
-You can always check what version you have installed with `jdtls --version`
-command.
-
-To update jdtls-launcher you have to manually [uninstall](#uninstall) and
-[reinstall](#install)
+ - [Nix](https://search.nixos.org/packages?channel=unstable&show=jdt-language-server&from=0&size=50&sort=relevance&type=packages&query=jdt-language-server)
+ - [Homebrew](https://formulae.brew.sh/formula/jdtls)
+ - [Arch User Repository](https://aur.archlinux.org/packages/jdtls)
+ - [Mason.nvim](https://mason-registry.dev/registry/list#jdtls)
 
 ## Uninstall
 
 Remove symlink and `jdtls-launcher` directory with `rm -rf`.
- - Symlink locations can be found using `where jdtls` or `which jdtls`
  - Install location can be found using `dirname $(realpath jdtls)`
-
-## Editor configuration:
-
-#### Neovim with [lspconfig](https://github.com/neovim/nvim-lspconfig)
-
-Add the following to your **init.vim**
-
-```vim
-lua require'lspconfig'.jdtls.setup{
-\   cmd = { 'jdtls' },
-\   root_dir = function(fname)
-\      return require'lspconfig'.util.root_pattern('pom.xml', 'gradle.build', '.git')(fname) or vim.fn.getcwd()
-\   end
-\}
-```
+ - Symlink locations can be found using `where jdtls` or `which jdtls`
